@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fullstack App</title>
+  </head>
+  <body>
+    <h1>Hello from Frontend!</h1>
+    <p id="status">Loading...</p>
+    <script>
+      fetch('/api/health')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('status').innerText = 'Backend: ' + data.status;
+        })
+        .catch(() => {
+          document.getElementById('status').innerText = 'Backend unreachable';
+        });
+    </script>
+  </body>
+</html>
