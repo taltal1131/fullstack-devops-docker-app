@@ -1,21 +1,20 @@
-# Stage 1: Build backend
-FROM node:18 AS backend
-WORKDIR /app/backend
-COPY backend/package*.json ./
+# Use an official Node.js runtime as a parent image
+FROM node:18
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
-COPY backend .
 
-# Stage 2: Build frontend (static HTML)
-FROM nginx:alpine AS frontend
-COPY frontend/index.html /usr/share/nginx/html/
-
-# Stage 3: Final image
-FROM nginx:alpine
-COPY --from=backend /app/backend /app/backend
-COPY --from=frontend /usr/share/nginx/html /usr/share/nginx/html
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+# Copy the rest of the application
+COPY . .
 
 # Expose port
-EXPOSE 80
+EXPOSE 5000
 
-CMD ["nginx", "-g", "daemon off;"]
+# Start the app
+CMD ["node", "index.js"]
