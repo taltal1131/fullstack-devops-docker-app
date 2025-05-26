@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: fullstack-devops-docker-app
+    env: docker
+    plan: free
+    autoDeploy: true
+    dockerfilePath: ./nginx/default.conf
+    buildCommand: docker-compose build
+    startCommand: docker-compose up
